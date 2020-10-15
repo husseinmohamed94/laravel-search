@@ -27,7 +27,7 @@ Route::get('/ecommerce/create','EcommerceController@create')->name('ecommerce.cr
 
 Route::post('/ecommerce/store','EcommerceController@store')->name('ecommerce.store');
 Route::get('/ecommerce/{id}/edit','EcommerceController@edit')->name('ecommerce.edit');
-Route::patch('/ecommerce/{id}/update','EcommerceController@update')->name('ecommerce.update');
+Route::get('/ecommerce/{id}/update','EcommerceController@update')->name('ecommerce.update');
 Route::delete('/ecommerce/{id}','EcommerceController@destroy')->name('ecommerce.destroy');
 
 

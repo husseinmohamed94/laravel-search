@@ -3,9 +3,11 @@
 @section('content')
          <div class="row">
              <div class="col-12">
-                 <form action="{{route('ecommerce.update',$product->id)}}" mothed="post">
+                 <form action="{{route('ecommerce.update',$product->id)}}" mothod="post">
                     @csrf
-                    @method('PATCH')
+
+                    
+
                      <div class="form-group">
                         <label for="name">Name</label>
                         <input type="text" name="name" class="form-control" value="{{old('name',$product->name)}}">
@@ -62,7 +64,7 @@
                      </div>
 
                      <div class="form-group pb-3">
-                        <button type="submit" class="btn btn-primary btn-block">save</button>
+                        <button type="submit" class="btn btn-primary btn-block">update</button>
                      </div>
 
                  </form>

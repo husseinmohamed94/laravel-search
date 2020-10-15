@@ -7,6 +7,8 @@ use App\Product;
 use App\Category;
 use App\Tag;
 use Nicolaslopezj\Searchable\SearchableTrait;
+use Illuminate\Support\Facades\Validator;
+
 class EcommerceController extends Controller
 {
 
@@ -108,6 +110,30 @@ class EcommerceController extends Controller
         return view('frontend.create',compact('categiers','tags'));
     }
     public function store(Request $request){
+        $validater= Validator::make($request->all(),[ 
+        'name'                     => 'required',
+        'description'              => 'required',
+        'price'                    => 'required|numeric',
+        'category_id'              => 'required',
+        'tags'                     => 'required',
+        'image'                     => 'required|url',
+        ]);
+        if($validater->fails()){
+            return redirect()->back()->withErrors($validater)->withInput();
+        }
+        $product = Product::create([
+            'name'                     => $request->name,
+            'description'              => $request->description,
+            'price'                    => $request->price,
+            'category_id'              => $request->category_id,
+            'image'                     => $request->image,
+                 ]);
+            $product->tags()->attach($request->tags);
+
+            return redirect()->route('ecommerce.index_list')->with([
+                'message' => 'product added successfully',
+                'alert-type' => 'success'
+            ]);
 
     }
     public function edit($id){
@@ -117,9 +143,45 @@ class EcommerceController extends Controller
         return view('frontend.edit',compact('product','categiers','tags'));
     }
     public function update(Request $request ,$id){
+        $validater= Validator::make($request->all(),[ 
+            'name'                     => 'required',
+            'description'              => 'required',
+            'price'                    => 'required|numeric',
+            'category_id'              => 'required',
+            'tags'                     => 'required',
+            'image'                     => 'required|url',
+            ]);
+            if($validater->fails()){
+                return redirect()->back()->withErrors($validater)->withInput();
+            }
+            $product = Product::whereId($id)->first();
 
+            $data['name']            =$request->name;
+            $data['description']     = $request->description;
+            $data['price']           = $request->price;
+            $data['category_id']     = $request->category_id;
+            $data['image']           = $request->image;
+
+            $product->update($data);
+            $product->tags()->sync($request->tags);
+
+
+                return redirect()->route('ecommerce.index_list')->with([
+                    'message' => 'product update successfully',
+                    'alert-type' => 'success'
+                ]);
+    
     }
     public function destroy($id){
+        $product = Product::whereId($id)->first();
+        if($product){
+            $product->delete();
+            return redirect()->route('ecommerce.index_list')->with([
+                'message' => 'product delete successfully',
+                'alert-type' => 'success'
+            ]);
+        }
+        return redirect()->back();
 
     }
 

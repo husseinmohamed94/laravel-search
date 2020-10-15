@@ -3,7 +3,7 @@
 @section('content')
          <div class="row">
              <div class="col-12">
-                 <form action="{{route('ecommerce.store')}}" mothed="post">
+                 <form action="{{route('ecommerce.store')}}" method="post">
                     @csrf
                      <div class="form-group">
                         <label for="name">Name</label>

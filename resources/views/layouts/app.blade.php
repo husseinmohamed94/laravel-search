@@ -73,10 +73,22 @@
         </nav>
 
         <main class="py-4">
-              <div class="container">         
+              <div class="container"> 
+              @include('partial.flash')        
             @yield('content')
+         
             </div> 
         </main>
     </div>
+
+    <script>
+     $(function(){
+        $('#session-alert').fadeTo(2000,500).slideUp(500,function () {
+            $('#session-alert').slideUp(500);
+        })
+      //  $('.alert').alert()
+     });
+     </script>
+
 </body>
 </html>
